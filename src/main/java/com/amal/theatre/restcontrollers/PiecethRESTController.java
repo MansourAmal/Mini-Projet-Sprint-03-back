@@ -22,27 +22,27 @@ public class PiecethRESTController {
     @Autowired
     PiecethService piecethService;
 
-    @RequestMapping(method = RequestMethod.GET)
+    @RequestMapping(path="all",method =RequestMethod.GET) 
     public List<PiecethDTO> getAllPieceths() {
         return piecethService.getAllPieceths();
     }
     
-    @RequestMapping(value="/{id}", method = RequestMethod.GET)
+    @RequestMapping(value="/getbyid/{id}",method = RequestMethod.GET)
     public PiecethDTO getPiecethById(@PathVariable("id") Long id) {
         return piecethService.getPieceth(id);
     }
     
-    @RequestMapping(method = RequestMethod.POST)
+    @RequestMapping(path="/addprod",method = RequestMethod.POST)
     public PiecethDTO createPieceth(@RequestBody PiecethDTO piecethDTO) {
         return piecethService.savePieceth(piecethDTO);
     }
     
-    @RequestMapping(method = RequestMethod.PUT)
+    @RequestMapping(path="/updateprod",method = RequestMethod.PUT)
     public PiecethDTO updatePieceth(@RequestBody PiecethDTO piecethDTO) {
         return piecethService.updatePieceth(piecethDTO);
     }
     
-    @RequestMapping(value="/{id}", method = RequestMethod.DELETE)
+    @RequestMapping(value="/delprod/{id}",method = RequestMethod.DELETE) 
     public void deletePieceth(@PathVariable("id") Long id) {
         piecethService.deletePiecethById(id);
     }
