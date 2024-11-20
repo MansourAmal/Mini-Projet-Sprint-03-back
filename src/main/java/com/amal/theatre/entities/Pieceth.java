@@ -1,11 +1,15 @@
 package com.amal.theatre.entities;
 
 import java.util.Date;
+import java.util.List;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 
 @Entity
 public class Pieceth {
@@ -16,12 +20,28 @@ public class Pieceth {
 	    private String nomPieceth;
 	    private String auteurPieceth;
 	    private Date dateCreation;
+	    private String imagePath;
 	    
-	    @ManyToOne
+	   
+		@ManyToOne
 	    private Genre genre;
+	    
+	   /* @OneToOne
+	    private Image image;*/
+	    
+	    @OneToMany (mappedBy = "pieceth")
+	    private List<Image> images;
 
 
-	    public Pieceth() {
+	   /* public Image getImage() {
+			return image;
+		}
+
+		public void setImage(Image image) {
+			this.image = image;
+		}*/
+
+		public Pieceth() {
 	        super();
 	    }
 
@@ -72,7 +92,26 @@ public class Pieceth {
 	        this.dateCreation = dateCreation;
 	    }
 
-	    @Override
+	    
+	    public List<Image> getImages() {
+			return images;
+		}
+
+		public void setImages(List<Image> images) {
+			this.images = images;
+		}
+		
+		 
+	    public String getImagePath() {
+			return imagePath;
+		}
+
+		public void setImagePath(String imagePath) {
+			this.imagePath = imagePath;
+		}
+
+
+		@Override
 	    public String toString() {
 	        return "Pieceth [idPieceth=" + idPieceth + ", nomPieceth=" + nomPieceth + ", auteurPieceth=" + auteurPieceth
 	                + ", dateCreation=" + dateCreation + "]";

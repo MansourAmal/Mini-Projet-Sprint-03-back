@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.amal.theatre.dto.PiecethDTO;
 import com.amal.theatre.entities.Pieceth;
 import com.amal.theatre.service.PiecethService;
 
@@ -23,23 +22,23 @@ public class PiecethRESTController {
     PiecethService piecethService;
 
     @RequestMapping(path="all",method =RequestMethod.GET) 
-    public List<PiecethDTO> getAllPieceths() {
+    public List<Pieceth> getAllPieceths() {
         return piecethService.getAllPieceths();
     }
     
     @RequestMapping(value="/getbyid/{id}",method = RequestMethod.GET)
-    public PiecethDTO getPiecethById(@PathVariable("id") Long id) {
+    public Pieceth getPiecethById(@PathVariable("id") Long id) {
         return piecethService.getPieceth(id);
     }
     
     @RequestMapping(path="/addprod",method = RequestMethod.POST)
-    public PiecethDTO createPieceth(@RequestBody PiecethDTO piecethDTO) {
-        return piecethService.savePieceth(piecethDTO);
+    public Pieceth createPieceth(@RequestBody Pieceth pieceth) {
+        return piecethService.savePieceth(pieceth);
     }
     
     @RequestMapping(path="/updateprod",method = RequestMethod.PUT)
-    public PiecethDTO updatePieceth(@RequestBody PiecethDTO piecethDTO) {
-        return piecethService.updatePieceth(piecethDTO);
+    public Pieceth updatePieceth(@RequestBody Pieceth pieceth) {
+        return piecethService.updatePieceth(pieceth);
     }
     
     @RequestMapping(value="/delprod/{id}",method = RequestMethod.DELETE) 

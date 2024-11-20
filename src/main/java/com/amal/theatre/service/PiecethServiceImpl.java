@@ -1,5 +1,8 @@
 package com.amal.theatre.service;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -8,52 +11,70 @@ import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.amal.theatre.dto.PiecethDTO;
 import com.amal.theatre.entities.Genre;
 import com.amal.theatre.entities.Pieceth;
+import com.amal.theatre.repos.ImageRepository;
 import com.amal.theatre.repos.PiecethRepository;
 
 @Service
 public class PiecethServiceImpl implements PiecethService {
-    @Autowired
-    PiecethRepository piecethRepository;
-    
-    @Autowired
-    ModelMapper modelMapper;
+	@Autowired
+	PiecethRepository piecethRepository;
+	
+	@Autowired
+	ImageRepository  imageRepository;
+
+	
+
+	
+	@Override
+	public Pieceth savePieceth(Pieceth p) {
+		return piecethRepository.save(p);
+	}
+
+	/*@Override
+	public PiecethDTO updatePieceth(PiecethDTO p) {
+		return convertEntityToDto(piecethRepository.save(convertDtoToEntity(p)));
+	}*/
+
+	@Override
+	public Pieceth updatePieceth(Pieceth p) {
+		//Long oldPieceImageId = this.getPieceth(p.getIdPieceth().getImage().getIdImage());
+		//Long newPieceImageId = p.getImage().getIdImage();
+		Pieceth pieceUpdated = piecethRepository.save(p);
+		//if (oldPieceImageId != newPieceImageId) // si l'image a été modifiée
+			//imageRepository.deleteById(oldPieceImageId);
+		return pieceUpdated;
+	}
+
+	@Override
+	public void deletePieceth(Pieceth p) {
+		piecethRepository.delete(p);
+	}
+
+	@Override
+	public void deletePiecethById(Long id) {
+		 Pieceth p = getPieceth(id);
+		try {
+			Files.delete(Paths.get(System.getProperty("user.home")+"/images/"+p.getImagePath()));
+			} catch (IOException e) {
+			e.printStackTrace();
+			}
+		piecethRepository.deleteById(id);
+	}
+	
 
 
-    @Override
-    public PiecethDTO savePieceth(PiecethDTO p) {
-        return convertEntityToDto( piecethRepository.save(convertDtoToEntity(p)));
-    }
+	@Override
+	public Pieceth getPieceth(Long id) {
+		return piecethRepository.findById(id).get();
+	}
 
-    @Override
-    public PiecethDTO updatePieceth(PiecethDTO p) {
-        return convertEntityToDto( piecethRepository.save(convertDtoToEntity(p)));
-    }
+	@Override
+	public List<Pieceth> getAllPieceths() {
+		return piecethRepository.findAll();
 
-    @Override
-    public void deletePieceth(Pieceth p) {
-        piecethRepository.delete(p);
-    }
-
-    @Override
-    public void deletePiecethById(Long id) {
-        piecethRepository.deleteById(id);
-    }
-
-    @Override
-    public PiecethDTO getPieceth(Long id) {
-        return convertEntityToDto(piecethRepository.findById(id).get());
-    }
-
-    @Override
-    public List<PiecethDTO> getAllPieceths() {
-        return piecethRepository.findAll().stream()
-        		.map(this::convertEntityToDto)
-        		.collect(Collectors.toList());
-
-    }
+	}
 
 	@Override
 	public List<Pieceth> findByNomPieceth(String nom) {
@@ -92,21 +113,10 @@ public class PiecethServiceImpl implements PiecethService {
 
 	@Override
 	public List<Pieceth> findByGenre(Genre genre) {
-		return piecethRepository.findByGenre(genre) ;
-	}
-	
-	@Override
-	public PiecethDTO convertEntityToDto(Pieceth pieceth) {
-		modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.LOOSE);
-	    PiecethDTO piecethDTO = modelMapper.map(pieceth, PiecethDTO.class);
-	    return piecethDTO;
+		return piecethRepository.findByGenre(genre);
 	}
 
-	@Override
-	public Pieceth convertDtoToEntity(PiecethDTO piecethDto) {
-	    Pieceth pieceth = modelMapper.map(piecethDto, Pieceth.class);
-	    return pieceth;
-	}
-    
-    
+	
+
+	
 }

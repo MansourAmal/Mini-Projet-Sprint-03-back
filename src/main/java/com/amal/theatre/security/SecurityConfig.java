@@ -41,7 +41,8 @@ public class SecurityConfig {
             }
         }))
 				
-	     .authorizeHttpRequests( requests -> requests
+	     .authorizeHttpRequests( ).anyRequest().permitAll();
+	    		 /*requests -> requests
 			    		  .requestMatchers("/api/all/**").hasAnyAuthority("ADMIN","USER")
 						  .requestMatchers(HttpMethod.GET,"/api/getbyid/**").hasAnyAuthority("ADMIN","USER")
 						  .requestMatchers(HttpMethod.POST,"/api/addprod/**").hasAnyAuthority("ADMIN")
@@ -50,7 +51,7 @@ public class SecurityConfig {
 						.anyRequest().authenticated() )
 	     
 	     .addFilterBefore(new JWTAuthorizationFilter(),
-				    UsernamePasswordAuthenticationFilter.class);
+				    UsernamePasswordAuthenticationFilter.class);*/
 		
 	return http.build();
 	}

@@ -2,17 +2,17 @@ package com.amal.theatre.service;
 
 import java.util.List;
 
-import com.amal.theatre.dto.PiecethDTO;
+
 import com.amal.theatre.entities.Genre;
 import com.amal.theatre.entities.Pieceth;
 
 public interface PiecethService {
-	PiecethDTO savePieceth(PiecethDTO p);
-    PiecethDTO updatePieceth(PiecethDTO p);
+	Pieceth savePieceth(Pieceth p);
+    Pieceth updatePieceth(Pieceth p);
     void deletePieceth(Pieceth p);
     void deletePiecethById(Long id);
-    PiecethDTO getPieceth(Long id);
-    List<PiecethDTO> getAllPieceths();
+    Pieceth getPieceth(Long id);
+    List<Pieceth> getAllPieceths();
     List<Pieceth> findByNomPieceth(String nom);
     List<Pieceth> findByNomPiecethContains(String nom);
     List<Pieceth> findByNomAuteur(String nom, String auteur);
@@ -20,7 +20,6 @@ public interface PiecethService {
     List<Pieceth> findByGenreId(Long genreId);
     List<Pieceth> findByOrderByNomPiecethAsc();
     List<Pieceth> trierPiecethsNomsAuteurs();
-    Pieceth convertDtoToEntity(PiecethDTO piecethDto);
-    PiecethDTO convertEntityToDto(Pieceth pieceth);
+    
    
 }
